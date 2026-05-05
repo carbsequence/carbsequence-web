@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carbsequence — Eat for How You Move</title>
+<meta name="description" content="Snap a photo of your food. See exactly how long your workout needs to be to burn it off — based on the exercise you actually do.">
+<meta property="og:title" content="Carbsequence — Eat for How You Move">
+<meta property="og:description" content="Snap a photo of your food. See exactly how long your workout needs to be to burn it off — based on the exercise you actually do.">
+<meta property="og:image" content="/og-image.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+font-family: -apple-system, 'Inter', BlinkMacSystemFont, sans-serif;
+background: #fff;
+color: #1d1d1f;
+-webkit-font-smoothing: antialiased;
+overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+height: 52px;
+background: rgba(255,255,255,0.85);
+backdrop-filter: saturate(180%) blur(20px);
+-webkit-backdrop-filter: saturate(180%) blur(20px);
+border-bottom: 1px solid rgba(0,0,0,0.08);
+display: flex; align-items: center; justify-content: space-between;
+padding: 0 24px;
+}
+.nav-logo {
+display: flex; align-items: center; gap: 8px;
+font-size: 17px; font-weight: 600; color: #1d1d1f;
+text-decoration: none; letter-spacing: -0.3px;
+}
+.nav-logo .logo-icon {
+width: 28px; height: 28px; border-radius: 7px;
+background: #00c36b;
+display: flex; align-items: center; justify-content: center;
+font-size: 14px;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+font-size: 13px; color: #6e6e73; text-decoration: none;
+transition: color 0.2s;
+}
+.nav-links a:hover { color: #1d1d1f; }
+.nav-dl {
+font-size: 13px; font-weight: 500; color: #06c;
+text-decoration: none; transition: opacity 0.2s;
+}
+.nav-dl:hover { opacity: 0.7; }
+
+/* ── SECTIONS ── */
+.section {
+padding: 120px 24px;
+max-width: 980px;
+margin: 0 auto;
+text-align: center;
+}
+
+.section.left { text-align: left; }
+
+/* ── HERO ── */
+.hero {
+padding: 160px 24px 120px;
+max-width: 980px;
+margin: 0 auto;
+text-align: center;
+}
+
+.hero-kicker {
+font-size: 17px; font-weight: 400;
+color: #00c36b; margin-bottom: 16px;
+letter-spacing: -0.2px;
+}
+
+h1 {
+font-size: clamp(48px, 7vw, 80px);
+font-weight: 700;
+letter-spacing: -0.04em;
+line-height: 1.0;
+color: #1d1d1f;
+margin-bottom: 24px;
+}
+
+.hero-sub {
+font-size: clamp(19px, 2.5vw, 24px);
+font-weight: 400;
+color: #6e6e73;
+max-width: 600px;
+margin: 0 auto 48px;
+line-height: 1.5;
+letter-spacing: -0.2px;
+}
+
+.hero-actions {
+display: flex; gap: 16px; justify-content: center;
+flex-wrap: wrap; margin-bottom: 80px;
+}
+
+.btn-solid {
+background: #1d1d1f; color: #fff;
+font-size: 15px; font-weight: 500;
+padding: 14px 28px; border-radius: 980px;
+text-decoration: none; letter-spacing: -0.2px;
+transition: opacity 0.2s;
+}
+.btn-solid:hover { opacity: 0.75; }
+
+.btn-android {
+background: #00c36b; color: #fff;
+font-size: 15px; font-weight: 500;
+padding: 14px 28px; border-radius: 980px;
+text-decoration: none; letter-spacing: -0.2px;
+transition: opacity 0.2s;
+}
+.btn-android:hover { opacity: 0.75; }
+
+.btn-outline {
+background: transparent; color: #1d1d1f;
+font-size: 15px; font-weight: 500;
+padding: 14px 28px; border-radius: 980px;
+border: 1px solid rgba(0,0,0,0.2);
+text-decoration: none; letter-spacing: -0.2px;
+transition: all 0.2s;
+}
+.btn-outline:hover { background: rgba(0,0,0,0.04); }
+
+/* ── HERO CARD ── */
+.hero-card {
+max-width: 520px; margin: 0 auto;
+background: #f5f5f7;
+border-radius: 24px;
+overflow: hidden;
+}
+
+.card-top {
+padding: 28px 32px 20px;
+display: flex; align-items: center; gap: 14px;
+}
+
+.food-thumb {
+width: 64px; height: 64px; border-radius: 14px;
+background: #fff;
+display: flex; align-items: center; justify-content: center;
+font-size: 34px;
+flex-shrink: 0;
+}
+
+.food-info { text-align: left; }
+.food-name {
+font-size: 17px; font-weight: 600; letter-spacing: -0.3px;
+margin-bottom: 3px;
+}
+.food-cal { font-size: 13px; color: #6e6e73; }
+
+.card-result {
+margin: 0 20px 20px;
+background: #fff;
+border-radius: 16px;
+padding: 22px 24px;
+}
+
+.result-label {
+font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+text-transform: uppercase; color: #6e6e73; margin-bottom: 8px;
+}
+
+.result-main {
+font-size: 42px; font-weight: 700;
+letter-spacing: -0.03em; color: #1d1d1f;
+line-height: 1; margin-bottom: 4px;
+}
+.result-main span { color: #00c36b; }
+
+.result-sub { font-size: 14px; color: #6e6e73; }
+
+.card-nudge {
+margin: 0 20px 24px;
+padding: 14px 18px;
+background: #fff7ed;
+border-radius: 12px;
+font-size: 14px; color: #92400e;
+display: flex; gap: 8px; align-items: flex-start;
+text-align: left;
+}
+
+/* ── DIVIDER ── */
+hr {
+border: none;
+border-top: 1px solid #d2d2d7;
+max-width: 980px;
+margin: 0 auto;
+}
+
+/* ── SECTION HEADINGS ── */
+.section-eyebrow {
+font-size: 13px; font-weight: 500;
+color: #00c36b; letter-spacing: 0.04em;
+text-transform: uppercase; margin-bottom: 12px;
+}
+
+h2 {
+font-size: clamp(36px, 5vw, 56px);
+font-weight: 700; letter-spacing: -0.03em;
+line-height: 1.05; color: #1d1d1f;
+margin-bottom: 16px;
+}
+
+h2 .muted { color: #6e6e73; }
+
+.body-copy {
+font-size: 19px; color: #6e6e73;
+max-width: 540px; line-height: 1.6;
+font-weight: 400; letter-spacing: -0.2px;
+}
+
+.body-copy.centered { margin: 0 auto; }
+
+/* ── DIFFERENTIATOR ── */
+.diff-section {
+background: #f5f5f7;
+padding: 100px 24px;
+}
+.diff-inner {
+max-width: 980px; margin: 0 auto;
+text-align: center;
+}
+
+.diff-statement {
+font-size: clamp(28px, 4vw, 48px);
+font-weight: 700; letter-spacing: -0.03em;
+line-height: 1.15; color: #1d1d1f;
+max-width: 720px; margin: 0 auto 60px;
+}
+.diff-statement .green { color: #00c36b; }
+
+.compare-row {
+display: grid; grid-template-columns: 1fr auto 1fr;
+gap: 16px; align-items: center;
+max-width: 680px; margin: 0 auto;
+}
+
+.compare-col {
+background: #fff; border-radius: 16px; padding: 24px;
+text-align: center;
+}
+.compare-col.them { opacity: 0.5; }
+.compare-col.us { border: 1.5px solid #00c36b; }
+
+.compare-col-label {
+font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+text-transform: uppercase; color: #6e6e73; margin-bottom: 10px;
+}
+.compare-col.us .compare-col-label { color: #00c36b; }
+
+.compare-col-text {
+font-size: 15px; font-weight: 500; color: #1d1d1f;
+line-height: 1.4;
+}
+
+.vs-badge {
+font-size: 12px; font-weight: 700; color: #6e6e73;
+}
+
+/* ── HOW IT WORKS ── */
+.steps-grid {
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 48px; margin-top: 64px; text-align: left;
+}
+
+.step-num {
+font-size: 13px; font-weight: 600; color: #00c36b;
+letter-spacing: 0.06em; margin-bottom: 16px;
+}
+
+.step-icon-wrap {
+font-size: 36px; margin-bottom: 20px; display: block;
+}
+
+.step h3 {
+font-size: 19px; font-weight: 600; letter-spacing: -0.3px;
+margin-bottom: 10px; color: #1d1d1f;
+}
+.step p { font-size: 15px; color: #6e6e73; line-height: 1.6; }
+
+/* ── ACTIVITY PICKER ── */
+.activity-section {
+background: #f5f5f7; padding: 100px 24px;
+}
+.activity-inner {
+max-width: 980px; margin: 0 auto;
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 80px; align-items: center;
+}
+.activity-text { text-align: left; }
+.activity-text .body-copy { margin-top: 16px; }
+
+.picker-card {
+background: #fff; border-radius: 20px;
+padding: 28px; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+.picker-title {
+font-size: 15px; font-weight: 600; color: #1d1d1f;
+margin-bottom: 4px; letter-spacing: -0.2px;
+}
+.picker-sub { font-size: 13px; color: #6e6e73; margin-bottom: 24px; }
+
+.activity-grid {
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 8px; margin-bottom: 20px;
+}
+.act-btn {
+background: #f5f5f7; border: 1.5px solid transparent;
+border-radius: 12px; padding: 14px 8px; text-align: center;
+cursor: pointer; transition: all 0.15s;
+}
+.act-btn.active {
+background: #f0fdf6; border-color: #00c36b;
+}
+.act-btn .act-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+.act-btn .act-label { font-size: 11px; font-weight: 600; color: #1d1d1f; }
+.act-btn .act-sub { font-size: 10px; color: #6e6e73; margin-top: 2px; }
+.act-btn.active .act-sub { color: #00c36b; }
+
+.picker-result {
+background: #f5f5f7; border-radius: 12px; padding: 16px 18px;
+display: flex; align-items: center; gap: 12px;
+}
+.picker-result-icon { font-size: 24px; }
+.picker-result-text { font-size: 14px; color: #1d1d1f; line-height: 1.5; }
+.picker-result-text strong { font-weight: 600; color: #00c36b; }
+
+/* ── FEATURES ── */
+.features-list {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 1px; background: #d2d2d7;
+border: 1px solid #d2d2d7;
+border-radius: 20px; overflow: hidden;
+margin-top: 64px;
+}
+.feature-item {
+background: #fff; padding: 40px 36px;
+}
+.feature-item:first-child { border-radius: 20px 0 0 0; }
+.feature-item:nth-child(2) { border-radius: 0 20px 0 0; }
+.feature-item:nth-last-child(2) { border-radius: 0 0 0 20px; }
+.feature-item:last-child { border-radius: 0 0 20px 0; }
+
+.feat-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+.feature-item h3 {
+font-size: 17px; font-weight: 600; letter-spacing: -0.3px;
+color: #1d1d1f; margin-bottom: 8px;
+}
+.feature-item p { font-size: 14px; color: #6e6e73; line-height: 1.6; }
+
+/* ── MACROS ── */
+.macro-section {
+padding: 100px 24px; background: #fff;
+}
+.macro-inner {
+max-width: 980px; margin: 0 auto;
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 80px; align-items: center;
+}
+.macro-text { text-align: left; }
+.macro-text .body-copy { margin: 16px 0 36px; }
+
+.macro-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.macro-list li {
+display: flex; gap: 10px;
+font-size: 15px; color: #6e6e73; line-height: 1.5;
+}
+.macro-list li::before {
+content: '\2713'; color: #00c36b; font-weight: 700; flex-shrink: 0;
+}
+.macro-list li strong { color: #1d1d1f; font-weight: 500; }
+
+.macro-visual {
+background: #f5f5f7; border-radius: 20px; padding: 28px;
+}
+.mv-title { font-size: 13px; font-weight: 600; color: #6e6e73; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 24px; }
+
+.macro-bars { display: flex; flex-direction: column; gap: 18px; }
+.mb-row { }
+.mb-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.mb-label { font-size: 13px; font-weight: 500; color: #1d1d1f; }
+.mb-val { font-size: 13px; color: #6e6e73; }
+.mb-track {
+height: 6px; background: #e5e5ea; border-radius: 3px; overflow: hidden;
+}
+.mb-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+/* ── PRICING ── */
+.pricing-section { background: #f5f5f7; padding: 100px 24px; }
+.pricing-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+
+.pricing-cards {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 16px; margin-top: 56px;
+}
+.price-card {
+background: #fff; border-radius: 20px; padding: 32px 28px;
+text-align: left; position: relative;
+}
+.price-card.featured {
+background: #1d1d1f; color: #fff;
+}
+.price-best {
+position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+background: #00c36b; color: #fff;
+font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+padding: 4px 14px; border-radius: 0 0 10px 10px;
+}
+.price-plan { font-size: 13px; font-weight: 600; color: #6e6e73; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+.price-card.featured .price-plan { color: rgba(255,255,255,0.5); }
+.price-amount { font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
+.price-period { font-size: 13px; color: #6e6e73; margin-bottom: 28px; }
+.price-card.featured .price-period { color: rgba(255,255,255,0.5); }
+
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.price-features li { font-size: 14px; color: #6e6e73; display: flex; gap: 8px; }
+.price-features li::before { content: '\2713'; color: #00c36b; font-weight: 700; flex-shrink: 0; }
+.price-card.featured .price-features li { color: rgba(255,255,255,0.7); }
+
+.price-btn {
+display: block; width: 100%; text-align: center;
+padding: 13px; border-radius: 980px;
+font-size: 14px; font-weight: 600; text-decoration: none;
+transition: opacity 0.2s;
+}
+.price-btn:hover { opacity: 0.8; }
+.price-btn.dark { background: #1d1d1f; color: #fff; }
+.price-btn.light { background: #fff; color: #1d1d1f; }
+
+/* ── CTA ── */
+.cta-section { padding: 120px 24px; text-align: center; }
+.cta-section h2 { margin-bottom: 16px; }
+.cta-section .body-copy { margin: 0 auto 40px; }
+
+/* ── FOOTER ── */
+footer {
+border-top: 1px solid #d2d2d7;
+padding: 40px 24px;
+max-width: 980px; margin: 0 auto;
+display: flex; justify-content: space-between; align-items: center;
+flex-wrap: wrap; gap: 16px;
+}
+.footer-copy { font-size: 13px; color: #6e6e73; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: #6e6e73; text-decoration: none; }
+.footer-links a:hover { color: #1d1d1f; }
+
+/* ── FADE IN ── */
+.fade { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade.in { opacity: 1; transform: translateY(0); }
+
+/* ── HAMBURGER BUTTON ── */
+.nav-hamburger {
+display: none;
+background: none; border: none; cursor: pointer;
+width: 36px; height: 36px;
+position: relative; padding: 0;
+}
+.nav-hamburger span {
+display: block; width: 18px; height: 1.5px;
+background: #1d1d1f; border-radius: 1px;
+position: absolute; left: 9px;
+transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.nav-hamburger span:nth-child(1) { top: 12px; }
+.nav-hamburger span:nth-child(2) { top: 17px; }
+.nav-hamburger span:nth-child(3) { top: 22px; }
+.nav-hamburger.open span:nth-child(1) { top: 17px; transform: rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { top: 17px; transform: rotate(-45deg); }
+
+/* ── MOBILE MENU OVERLAY ── */
+.nav-mobile-menu {
+display: none;
+position: fixed; top: 52px; left: 0; right: 0; bottom: 0;
+background: rgba(255,255,255,0.97);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+z-index: 99;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+padding-top: 48px; gap: 0;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+font-size: 17px; font-weight: 500; color: #1d1d1f;
+text-decoration: none; padding: 16px 0;
+border-bottom: 1px solid rgba(0,0,0,0.06);
+width: 80%; text-align: center;
+transition: color 0.2s;
+}
+.nav-mobile-menu a:last-child { border-bottom: none; }
+.nav-mobile-menu .nav-mobile-dl {
+margin-top: 24px;
+background: #1d1d1f; color: #fff;
+font-size: 15px; font-weight: 600;
+padding: 14px 40px; border-radius: 980px;
+border-bottom: none; width: auto;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 734px) {
+  /* Nav */
+  .nav-links { display: none; }
+  .nav-dl { display: none; }
+  .nav-hamburger { display: block; }
+
+  /* Hero */
+  .hero { padding: 120px 20px 80px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions .btn-solid { width: 100%; max-width: 320px; text-align: center; }
+  .hero-card { margin: 0 -4px; }
+  .card-top { padding: 20px 20px 16px; }
+
+  /* Sections */
+  .section { padding: 80px 20px; }
+  .diff-section { padding: 80px 20px; }
+
+  /* Comparator */
+  .compare-row { grid-template-columns: 1fr; gap: 12px; max-width: 400px; }
+  .vs-badge { text-align: center; }
+
+  /* Steps */
+  .steps-grid { grid-template-columns: 1fr; gap: 40px; margin-top: 48px; }
+
+  /* Activity picker */
+  .activity-section { padding: 80px 20px; }
+  .activity-inner { grid-template-columns: 1fr; gap: 40px; }
+  .activity-text { text-align: center; }
+  .activity-text .body-copy { margin: 16px auto 0; }
+
+  /* Features */
+  .features-list { grid-template-columns: 1fr; }
+  .feature-item { padding: 32px 24px; }
+  .feature-item:first-child { border-radius: 20px 20px 0 0; }
+  .feature-item:nth-child(2) { border-radius: 0; }
+  .feature-item:nth-last-child(2) { border-radius: 0; }
+  .feature-item:last-child { border-radius: 0 0 20px 20px; }
+
+  /* Macros */
+  .macro-section { padding: 80px 20px; }
+  .macro-inner { grid-template-columns: 1fr; gap: 40px; }
+
+  /* Pricing */
+  .pricing-section { padding: 80px 20px; }
+  .pricing-cards { grid-template-columns: 1fr; gap: 16px; }
+
+  /* CTA */
+  .cta-section { padding: 80px 20px; }
+  .cta-section .hero-actions { flex-direction: column; align-items: center; }
+
+  /* Footer */
+  footer {
+    flex-direction: column; text-align: center;
+    align-items: center; gap: 12px; padding: 32px 20px;
+  }
+  .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+}
+
+/* ── TABLET BREAKPOINT ── */
+@media (min-width: 735px) and (max-width: 1068px) {
+  .activity-inner { gap: 40px; }
+  .macro-inner { gap: 40px; }
+  .steps-grid { gap: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">&#127957;</div>
+    Carbsequence
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="https://apps.apple.com/us/app/carbsequence/id6759181142" target="_blank" rel="noopener noreferrer" class="nav-dl">Download</a>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile-menu" id="mobileMenu">
+  <a href="#how" onclick="closeMenu()">How it works</a>
+  <a href="#features" onclick="closeMenu()">Features</a>
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="https://apps.apple.com/us/app/carbsequence/id6759181142" target="_blank" rel="noopener noreferrer" class="nav-mobile-dl" onclick="closeMenu()">Download for iOS</a>
+</div>
+
+<!-- HERO -->
+<div class="hero fade">
+  <p class="hero-kicker">Nutrition meets movement</p>
+  <h1>Eat for how<br>you move.</h1>
+  <p class="hero-sub">
+    Snap a photo of your food. We'll tell you exactly how long your workout needs to be to burn it off — based on the exercise <em>you</em> actually do.
+  </p>
+  <div class="hero-actions">
+    <a href="https://apps.apple.com/us/app/carbsequence/id6759181142" target="_blank" rel="noopener noreferrer" class="btn-solid">Download for iOS</a>
+    <a href="https://play.google.com/store/apps/details?id=com.carbsequence.droid&pli=1" target="_blank" rel="noopener noreferrer" class="btn-android">Download for Android</a>
+  </div>
+
+  <!-- THE COOKIE MOMENT -->
+  <div class="hero-card">
+    <div class="card-top">
+      <div class="food-thumb">&#127850;</div>
+      <div class="food-info">
+        <div class="food-name">Chocolate Chip Cookie</div>
+        <div class="food-cal">240 cal · 32g carbs · 10g fat</div>
+      </div>
+    </div>
+    <div class="card-result">
+      <div class="result-label">&#128694; Walking — your exercise</div>
+      <div class="result-main"><span>58</span> minutes</div>
+      <div class="result-sub">to burn off this one cookie, at your pace</div>
+    </div>
+    <div class="card-nudge">
+      &#128161; That's almost an hour of walking for one cookie. Still want it?
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- DIFFERENTIATOR -->
+<div class="diff-section">
+  <div class="diff-inner fade">
+    <p class="diff-statement">
+      Every other app says<br>
+      <span class="green">"240 calories."</span><br>
+      We say <span class="green">"58 minutes of walking."</span>
+    </p>
+    <div class="compare-row">
+      <div class="compare-col them">
+        <div class="compare-col-label">Other Apps</div>
+        <div class="compare-col-text">You ate 240 calories</div>
+      </div>
+      <div class="vs-badge">vs</div>
+      <div class="compare-col us">
+        <div class="compare-col-label">Carbsequence</div>
+        <div class="compare-col-text">58 min walk at your pace, your weight</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="how">
+  <div class="fade">
+    <p class="section-eyebrow">How it works</p>
+    <h2>Three steps.<br><span class="muted">That's it.</span></h2>
+  </div>
+  <div class="steps-grid fade">
+    <div class="step">
+      <div class="step-num">01</div>
+      <span class="step-icon-wrap">&#127939;</span>
+      <h3>Tell us how you move</h3>
+      <p>Walking, cycling, swimming, gym — anything. Tell us your activity, your age, your weight, and your goal. Even a daily walk counts.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <span class="step-icon-wrap">&#128247;</span>
+      <h3>Snap your meal</h3>
+      <p>Take a photo of anything you're about to eat. Our AI identifies every item, estimates portions, and calculates full nutrition data in seconds.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <span class="step-icon-wrap">&#9889;</span>
+      <h3>See the real cost</h3>
+      <p>Instantly know how much of your exercise offsets that meal — and get smarter swaps if you want to stay on track without giving anything up.</p>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ACTIVITY PICKER -->
+<div class="activity-section">
+  <div class="activity-inner fade">
+    <div class="activity-text">
+      <p class="section-eyebrow">Personalized</p>
+      <h2>Built around<br>how <em>you</em> move.</h2>
+      <p class="body-copy">Not some average person. Not a generic calorie table. Every number in Carbsequence is calculated for your body, your pace, and the exercise you actually enjoy.</p>
+    </div>
+    <div class="picker-card">
+      <div class="picker-title">What do you like to do for exercise?</div>
+      <div class="picker-sub">Even walking counts. We'll build everything around you.</div>
+      <div class="activity-grid" id="activityGrid">
+        <div class="act-btn active" data-label="Walking" data-mins="58">
+          <span class="act-icon">&#128694;</span>
+          <div class="act-label">Walking</div>
+          <div class="act-sub">~95 cal/hr</div>
+        </div>
+        <div class="act-btn" data-label="Running" data-mins="17">
+          <span class="act-icon">&#127939;</span>
+          <div class="act-label">Running</div>
+          <div class="act-sub">~480 cal/hr</div>
+        </div>
+        <div class="act-btn" data-label="Cycling" data-mins="24">
+          <span class="act-icon">&#128692;</span>
+          <div class="act-label">Cycling</div>
+          <div class="act-sub">~350 cal/hr</div>
+        </div>
+        <div class="act-btn" data-label="Swimming" data-mins="20">
+          <span class="act-icon">&#127946;</span>
+          <div class="act-label">Swimming</div>
+          <div class="act-sub">~400 cal/hr</div>
+        </div>
+        <div class="act-btn" data-label="Weights" data-mins="32">
+          <span class="act-icon">&#127947;</span>
+          <div class="act-label">Weights</div>
+          <div class="act-sub">~250 cal/hr</div>
+        </div>
+        <div class="act-btn" data-label="Yoga" data-mins="45">
+          <span class="act-icon">&#129496;</span>
+          <div class="act-label">Yoga</div>
+          <div class="act-sub">~180 cal/hr</div>
+        </div>
+      </div>
+      <div class="picker-result" id="pickerResult">
+        <span class="picker-result-icon">&#127850;</span>
+        <div class="picker-result-text">That chocolate chip cookie = <strong id="minsLabel">58 minutes</strong> of walking</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- FEATURES -->
+<div class="section" id="features">
+  <div class="fade">
+    <p class="section-eyebrow">Features</p>
+    <h2>Everything you need.<br><span class="muted">Nothing you don't.</span></h2>
+  </div>
+  <div class="features-list fade">
+    <div class="feature-item">
+      <span class="feat-icon">&#128247;</span>
+      <h3>Photo-based logging</h3>
+      <p>Snap any meal and get full macros instantly. No barcodes, no food database, no manual entry. Point and shoot.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feat-icon">&#9201;&#65039;</span>
+      <h3>Exercise time cost</h3>
+      <p>Every meal tells you exactly how long your chosen exercise would need to run to offset it. Makes food choices feel real and personal.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feat-icon">&#129656;</span>
+      <h3>Blood sugar prediction</h3>
+      <p>A 2-hour blood glucose curve after every meal. Ideal for diabetics, pre-diabetics, or anyone who wants to feel better after eating.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feat-icon">&#128200;</span>
+      <h3>Macro trends</h3>
+      <p>Weekly reports showing where you nailed your goals and where you went off track — so you can build real habits, not just log meals.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feat-icon">&#127869;&#65039;</span>
+      <h3>Food recommendations</h3>
+      <p>Struggling to hit protein? Under on carbs? We suggest exactly what to add to your next meal to stay on track toward your goal.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feat-icon">&#127919;</span>
+      <h3>Goal-aligned targets</h3>
+      <p>Lose weight, maintain, build muscle — your macro targets and food guidance automatically adjust to what you're working toward.</p>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- MACROS -->
+<div class="macro-section">
+  <div class="macro-inner fade">
+    <div class="macro-text">
+      <p class="section-eyebrow">Macro tracking</p>
+      <h2>Stop guessing.<br>Start knowing.</h2>
+      <p class="body-copy">Macros are only useful if you understand them. Carbsequence connects your food choices directly to your movement and your goals.</p>
+      <ul class="macro-list" style="margin-top:32px;">
+        <li><strong>Protein targets</strong> set for your activity and muscle goals</li>
+        <li><strong>Carb timing</strong> — when you eat carbs matters as much as how many</li>
+        <li><strong>Weekly trends</strong> so you see the pattern, not just today</li>
+        <li><strong>Smart nudges</strong> when you're consistently missing a target</li>
+      </ul>
+    </div>
+    <div class="macro-visual">
+      <div class="mv-title">This week</div>
+      <div class="macro-bars">
+        <div class="mb-row">
+          <div class="mb-top">
+            <span class="mb-label">Protein</span>
+            <span class="mb-val">142g / 165g</span>
+          </div>
+          <div class="mb-track">
+            <div class="mb-fill" style="width:86%;background:#00c36b;"></div>
+          </div>
+        </div>
+        <div class="mb-row">
+          <div class="mb-top">
+            <span class="mb-label">Carbohydrates</span>
+            <span class="mb-val">198g / 240g</span>
+          </div>
+          <div class="mb-track">
+            <div class="mb-fill" style="width:82%;background:#3b82f6;"></div>
+          </div>
+        </div>
+        <div class="mb-row">
+          <div class="mb-top">
+            <span class="mb-label">Fat</span>
+            <span class="mb-val">58g / 80g</span>
+          </div>
+          <div class="mb-track">
+            <div class="mb-fill" style="width:72%;background:#f59e0b;"></div>
+          </div>
+        </div>
+        <div class="mb-row">
+          <div class="mb-top">
+            <span class="mb-label">Goal streak</span>
+            <span class="mb-val" style="color:#00c36b;font-weight:600;">5 days &#10003;</span>
+          </div>
+          <div class="mb-track">
+            <div class="mb-fill" style="width:71%;background:#00c36b;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- PRICING -->
+<div class="pricing-section" id="pricing">
+  <div class="pricing-inner fade">
+    <p class="section-eyebrow">Pricing</p>
+    <h2>Simple pricing.</h2>
+    <p class="body-copy centered">Less than a coffee a month. Cancel anytime.</p>
+    <div class="pricing-cards">
+      <div class="price-card">
+        <div class="price-plan">Free</div>
+        <div class="price-amount">$0</div>
+        <div class="price-period">forever</div>
+        <ul class="price-features">
+          <li>3 meal analyses per day</li>
+          <li>Top 3 exercise equivalents</li>
+          <li>Blood sugar impact badge</li>
+          <li>Up to 3 saved dishes</li>
+          <li>Full meal history</li>
+          <li>Ad-supported</li>
+        </ul>
+        <a href="#" class="price-btn dark">Get started</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-best">Best Value</div>
+        <div class="price-plan">Premium</div>
+        <div class="price-amount">$4.99 USD</div>
+        <div class="price-period">per month · $43.99 USD/year</div>
+        <ul class="price-features">
+          <li>Unlimited meal analyses</li>
+          <li>Full blood sugar timeline</li>
+          <li>AI meal insights &amp; coaching</li>
+          <li>Weekly &amp; monthly trends</li>
+          <li>All exercise equivalents</li>
+          <li>Unlimited saved dishes</li>
+          <li>CSV &amp; PDF export</li>
+          <li>No ads</li>
+        </ul>
+        <a href="#" class="price-btn light">Start free trial</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section fade">
+  <h2>Ready to see what<br>your food really costs?</h2>
+  <p class="body-copy centered">Download free. Start with a photo of your next meal.</p>
+  <div class="hero-actions">
+    <a href="https://apps.apple.com/us/app/carbsequence/id6759181142" target="_blank" rel="noopener noreferrer" class="btn-solid">Download for iOS</a>
+    <a href="https://play.google.com/store/apps/details?id=com.carbsequence.droid&pli=1" target="_blank" rel="noopener noreferrer" class="btn-android">Download for Android</a>
+  </div>
+</div>
+
+<hr>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">&copy; 2026 Carbsequence · Appdromeda Technologies Inc.</span>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/delete-account/">Delete Account</a>
+    <a href="mailto:hello@carbsequence.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+// Mobile menu toggle
+function toggleMenu() {
+  document.querySelector('.nav-hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu() {
+  document.querySelector('.nav-hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Fade on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+// Activity picker
+document.querySelectorAll('.act-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const label = btn.dataset.label;
+    const mins = btn.dataset.mins;
+    document.getElementById('minsLabel').textContent = mins + ' minutes';
+    document.querySelector('.picker-result-text').innerHTML =
+      'That chocolate chip cookie = <strong id="minsLabel">' + mins + ' minutes</strong> of ' + label.toLowerCase();
+  });
+});
+</script>
+
+</body>
+</html>

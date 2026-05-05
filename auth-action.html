@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CarbSequence</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f4f4f5;
+      color: #1d1d1f;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 440px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .header {
+      background: #00c36b;
+      padding: 24px 28px;
+    }
+    .header span {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .body {
+      padding: 32px 28px 28px;
+    }
+    .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+    .icon.success { background: rgba(0, 195, 107, 0.12); }
+    .icon.error { background: rgba(231, 76, 60, 0.12); }
+    .icon.loading { background: rgba(0, 0, 0, 0.06); }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    p {
+      font-size: 15px;
+      color: #6e6e73;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block;
+      background: #00c36b;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 13px 28px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: #00a359; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.outline {
+      background: transparent;
+      color: #00c36b;
+      border: 1.5px solid #00c36b;
+    }
+    .btn.outline:hover { background: rgba(0, 195, 107, 0.06); }
+    input[type="password"] {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #d2d2d7;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="password"]:focus { border-color: #00c36b; }
+    .error-text { color: #e74c3c; font-size: 13px; margin-bottom: 12px; }
+    .footer {
+      padding: 16px 28px;
+      border-top: 1px solid #f0f0f0;
+      font-size: 12px;
+      color: #aeaeb2;
+    }
+    .spinner {
+      width: 24px; height: 24px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top-color: #00c36b;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header"><span>CarbSequence</span></div>
+    <div class="body">
+      <!-- Loading state -->
+      <div id="loading">
+        <div class="icon loading"><div class="spinner"></div></div>
+        <h1>Processing...</h1>
+        <p>Please wait while we verify your request.</p>
+      </div>
+
+      <!-- Verify email: success -->
+      <div id="verify-success" class="hidden">
+        <div class="icon success">&#10003;</div>
+        <h1>Email verified</h1>
+        <p>Your email address has been confirmed. You can close this page and return to the app.</p>
+        <a id="verify-continue" href="/" class="btn">Continue</a>
+      </div>
+
+      <!-- Password reset: form -->
+      <div id="reset-form" class="hidden">
+        <div class="icon success">&#128274;</div>
+        <h1>Reset your password</h1>
+        <p>Enter a new password for your CarbSequence account.</p>
+        <form id="reset-password-form">
+          <input type="password" id="new-password" placeholder="New password" minlength="6" required autocomplete="new-password" />
+          <input type="password" id="confirm-password" placeholder="Confirm password" minlength="6" required autocomplete="new-password" />
+          <div id="reset-error" class="error-text hidden"></div>
+          <button type="submit" class="btn" id="reset-btn">Reset password</button>
+        </form>
+      </div>
+
+      <!-- Password reset: success -->
+      <div id="reset-success" class="hidden">
+        <div class="icon success">&#10003;</div>
+        <h1>Password updated</h1>
+        <p>Your password has been reset. You can now sign in with your new password in the app.</p>
+        <a id="reset-continue" href="/" class="btn">Continue</a>
+      </div>
+
+      <!-- Recover email: success -->
+      <div id="recover-success" class="hidden">
+        <div class="icon success">&#10003;</div>
+        <h1>Email restored</h1>
+        <p>Your sign-in email has been reverted to the previous address. If you didn't request this change, consider resetting your password.</p>
+        <a id="recover-continue" href="/" class="btn">Continue</a>
+      </div>
+
+      <!-- Error -->
+      <div id="error-state" class="hidden">
+        <div class="icon error">&#10007;</div>
+        <h1>Something went wrong</h1>
+        <p id="error-message">This link may have expired or already been used. Please request a new one from the app.</p>
+        <a href="/" class="btn outline">Go to CarbSequence</a>
+      </div>
+    </div>
+    <div class="footer">CarbSequence by Appdromeda</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+    import {
+      getAuth,
+      applyActionCode,
+      verifyPasswordResetCode,
+      confirmPasswordReset,
+      checkActionCode,
+    } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+
+    const FIREBASE_CONFIGS = {
+      dev: {
+        apiKey: 'AIzaSyA4csxc4DBbuGXKIZnkBgAadKRgUIAhdR0',
+        authDomain: 'carbseq-dev-487406.firebaseapp.com',
+        projectId: 'carbseq-dev-487406',
+        appId: '1:480267854058:web:e4337aa6e1d0e4f1b6b793',
+      },
+      staging: {
+        apiKey: 'AIzaSyAAa3WTXHSsLqnk6AQdsxTT9Mhi24wdOy0',
+        authDomain: 'carbseq-staging-487406.firebaseapp.com',
+        projectId: 'carbseq-staging-487406',
+        appId: '1:1036074640710:web:440e7d4873c4d59a9ab147',
+      },
+      prod: {
+        apiKey: 'AIzaSyBBn1Zi7bwBRwB2hYbVnnRMw05PD8bTF3k',
+        authDomain: 'carbseq-prod-487406.firebaseapp.com',
+        projectId: 'carbseq-prod-487406',
+        appId: '1:597244777950:web:bb94f7d1a832f90c61794f',
+      },
+    };
+
+    function detectEnv() {
+      const host = window.location.hostname.toLowerCase();
+      if (host.includes('staging')) return 'staging';
+      if (host.includes('prod') || host === 'carbsequence.com' || host === 'www.carbsequence.com') return 'prod';
+      return 'dev';
+    }
+
+    const env = detectEnv();
+    const app = initializeApp(FIREBASE_CONFIGS[env] || FIREBASE_CONFIGS.dev);
+    const auth = getAuth(app);
+
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
+    const oobCode = params.get('oobCode');
+    const continueUrl = params.get('continueUrl') || '/';
+
+    const $ = (id) => document.getElementById(id);
+    function show(id) { $(id).classList.remove('hidden'); }
+    function hide(id) { $(id).classList.add('hidden'); }
+
+    async function handleVerifyEmail() {
+      try {
+        await applyActionCode(auth, oobCode);
+        hide('loading');
+        show('verify-success');
+        $('verify-continue').href = continueUrl;
+      } catch (e) {
+        showError(e);
+      }
+    }
+
+    async function handleResetPassword() {
+      try {
+        await verifyPasswordResetCode(auth, oobCode);
+        hide('loading');
+        show('reset-form');
+
+        $('reset-password-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const pw = $('new-password').value;
+          const confirm = $('confirm-password').value;
+
+          if (pw.length < 6) {
+            $('reset-error').textContent = 'Password must be at least 6 characters.';
+            $('reset-error').classList.remove('hidden');
+            return;
+          }
+          if (pw !== confirm) {
+            $('reset-error').textContent = 'Passwords do not match.';
+            $('reset-error').classList.remove('hidden');
+            return;
+          }
+
+          $('reset-btn').disabled = true;
+          $('reset-btn').textContent = 'Resetting...';
+          $('reset-error').classList.add('hidden');
+
+          try {
+            await confirmPasswordReset(auth, oobCode, pw);
+            hide('reset-form');
+            show('reset-success');
+            $('reset-continue').href = continueUrl;
+          } catch (err) {
+            $('reset-btn').disabled = false;
+            $('reset-btn').textContent = 'Reset password';
+            $('reset-error').textContent = err.message || 'Reset failed. Please try again.';
+            $('reset-error').classList.remove('hidden');
+          }
+        });
+      } catch (e) {
+        showError(e);
+      }
+    }
+
+    async function handleRecoverEmail() {
+      try {
+        await checkActionCode(auth, oobCode);
+        await applyActionCode(auth, oobCode);
+        hide('loading');
+        show('recover-success');
+        $('recover-continue').href = continueUrl;
+      } catch (e) {
+        showError(e);
+      }
+    }
+
+    function showError(e) {
+      hide('loading');
+      const msg = $('error-message');
+      if (e?.code === 'auth/expired-action-code') {
+        msg.textContent = 'This link has expired. Please request a new one from the app.';
+      } else if (e?.code === 'auth/invalid-action-code') {
+        msg.textContent = 'This link has already been used or is invalid. Please request a new one from the app.';
+      } else {
+        msg.textContent = e?.message || 'Something went wrong. Please try again from the app.';
+      }
+      show('error-state');
+    }
+
+    // Route to the right handler
+    if (!oobCode) {
+      showError({ message: 'Missing verification code. Please use the link from your email.' });
+    } else if (mode === 'verifyEmail') {
+      handleVerifyEmail();
+    } else if (mode === 'resetPassword') {
+      handleResetPassword();
+    } else if (mode === 'recoverEmail') {
+      handleRecoverEmail();
+    } else {
+      showError({ message: 'Unknown action. Please use the link from your email.' });
+    }
+  </script>
+</body>
+</html>

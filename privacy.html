@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Carbsequence</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; color: #1F2937; }
+        .updated { font-size: 14px; color: #9CA3AF; margin-bottom: 24px; }
+        .summary {
+            background: #F0FDF4;
+            border-left: 4px solid #22C55E;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 32px;
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        h2 { font-size: 20px; font-weight: 700; color: #1F2937; margin: 32px 0 12px; }
+        p, li { font-size: 15px; color: #374151; line-height: 1.7; margin-bottom: 12px; }
+        ul { padding-left: 24px; margin-bottom: 12px; }
+        li { margin-bottom: 6px; }
+        .back-link {
+            display: inline-block;
+            margin-top: 32px;
+            color: #22C55E;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        a { color: #22C55E; text-decoration: none; }
+        @media (max-width: 600px) { .container { padding: 28px 20px; } h1 { font-size: 26px; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 2026</p>
+
+    <div class="summary">
+        We collect minimal data necessary to provide the service. Your meal photos and nutrition data are stored
+        privately in your account. We never sell your data. AI analysis is performed securely using Google's Gemini API.
+        The free tier of the App is ad-supported; advertising identifiers and attribution signals may be collected by our advertising and attribution partners as described below.
+    </div>
+
+    <h2>1. Information We Collect</h2>
+    <p><strong>Account Information:</strong> When you sign in with Google or create an account with email, we collect your name and email address.</p>
+    <p><strong>Profile Information:</strong> Optional data you provide during onboarding, such as age, weight, height, activity level, dietary goals, and health conditions. This data is used to personalize your nutrition analysis.</p>
+    <p><strong>Meal Data:</strong> Photos you take of meals, along with the AI-generated nutritional analysis, glycemic profile, and exercise equivalents. This data is stored in your private account.</p>
+    <p><strong>Health Data:</strong> If you opt in, we sync nutrition data with Apple Health (iOS) or Health Connect (Android). We only write data you explicitly choose to sync and read basic metrics (weight, height, steps) to personalize your experience.</p>
+    <p><strong>Usage and Attribution Data:</strong> Basic analytics about app usage, such as app launches, registration, paywall views, and subscription conversion events. These events do not include meal photos, nutrition history, health data, or profile health details.</p>
+    <p><strong>Advertising Data:</strong> Our advertising and attribution partners may collect your device's advertising identifier (IDFA on iOS, GAID on Android), app install attribution signals, campaign measurement data, and ad interaction data. Google AdMob is used to deliver ads to free tier users. Meta (Facebook) is used to measure app install and campaign attribution. On iOS, access to the IDFA is gated behind your App Tracking Transparency (ATT) consent. On Android, advertising ID use is subject to your device settings and, where applicable, consent choices. Premium subscribers do not see ads, but limited attribution and conversion events may still be processed to measure campaign performance where permitted.</p>
+
+    <h2>2. How We Protect Your Data</h2>
+    <ul>
+        <li><strong>Secure Infrastructure:</strong> All data is stored on Google Cloud Platform (Firebase) with enterprise-grade security</li>
+        <li><strong>Authentication:</strong> Sign in with Google and email/password authentication via Firebase Auth</li>
+        <li><strong>Access Control:</strong> Firestore security rules ensure you can only access your own data</li>
+        <li><strong>Photo Storage:</strong> Meal photos are stored in Firebase Storage with per-user access controls</li>
+    </ul>
+
+    <h2>3. How We Use Your Information</h2>
+    <ul>
+        <li>Provide and maintain the nutrition analysis service</li>
+        <li>Process meal photos through AI to generate nutritional data</li>
+        <li>Personalize calorie targets, glycemic predictions, and exercise equivalents based on your profile</li>
+        <li>Send meal reminder notifications (if enabled)</li>
+        <li>Improve and develop new features</li>
+    </ul>
+
+    <h2>4. AI Processing</h2>
+    <p>When you photograph a meal, the image is sent to Google's Gemini AI for analysis. The AI identifies food items, estimates portions, and returns nutritional data. Google's AI services are subject to <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>. We do not use your meal photos to train AI models.</p>
+
+    <h2>5. Information Sharing</h2>
+    <p>We do not sell your personal data. We may share information with:</p>
+    <ul>
+        <li><strong>Service Providers:</strong> Google Cloud Platform (infrastructure), Google Gemini (AI analysis)</li>
+        <li><strong>Advertising and Attribution Partners:</strong> Google AdMob (ad delivery for free tier users) and Meta/Facebook (app install and campaign attribution). These partners may receive your device's advertising identifier, app usage signals, campaign attribution signals, and ad interaction data to serve ads, measure ads, and attribute installs or conversions. Google and Meta's data practices are governed by their respective privacy policies. You can opt out of personalized ads at any time in your device settings (iOS: Settings → Privacy &amp; Security → Tracking; Android: Settings → Google → Ads).</li>
+        <li><strong>Health Platforms:</strong> Apple Health or Health Connect, only when you explicitly enable syncing</li>
+        <li><strong>Legal Requirements:</strong> If required by law, regulation, or legal process</li>
+    </ul>
+
+    <h2>6. Data Retention</h2>
+    <ul>
+        <li>Your data is retained while your account is active</li>
+        <li>You can delete individual meals at any time through the App</li>
+        <li>You can delete your entire account and all associated data at any time through the App</li>
+        <li>Upon account deletion, all data including meal photos, nutrition history, and profile information is permanently removed</li>
+    </ul>
+
+    <h2>7. Your Rights</h2>
+    <ul>
+        <li>Access your personal data through the App</li>
+        <li>Correct inaccurate profile information</li>
+        <li>Export your meal and nutrition data (premium feature)</li>
+        <li>Delete your account and all data at any time</li>
+    </ul>
+
+    <h2>8. Camera and Photo Permissions</h2>
+    <p>Carbsequence requests camera access to photograph meals for nutritional analysis. Photos are only used for the analysis you initiate. You can also choose photos from your gallery. Camera access can be revoked at any time through your device settings.</p>
+
+    <h2>9. Advertising and Tracking Consent</h2>
+    <p>The free tier of Carbsequence is ad-supported. We use Google AdMob to serve banner ads and rewarded ads (which free users may watch to unlock additional analyses). We use Meta/Facebook SDK to measure app installs, campaign attribution, and selected app events such as registration and subscription conversion.</p>
+    <p><strong>iOS:</strong> When you first launch the App, you will be shown an App Tracking Transparency (ATT) prompt in accordance with Apple's requirements. If you decline, advertising partners will not access your IDFA. Your choice does not affect your ability to use the App.</p>
+    <p><strong>Android:</strong> Where required by law (e.g., users in the EU/EEA), you may be shown a GDPR consent dialog powered by Google's User Messaging Platform before ads are loaded. Advertising ID access can also be limited in Android system settings.</p>
+    <p>To opt out of personalized advertising entirely: on iOS go to <em>Settings → Privacy &amp; Security → Tracking</em>; on Android go to <em>Settings → Google → Ads → Delete advertising ID</em>.</p>
+
+    <h2>10. Children's Privacy</h2>
+    <p>Carbsequence is not intended for use by anyone under the age of 18. We do not knowingly collect personal information from children.</p>
+
+    <h2>11. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. We will notify you of significant changes through the App or via email. Your continued use of the App after changes constitutes acceptance of the updated policy.</p>
+
+    <h2>12. Contact Us</h2>
+    <p>If you have questions about this Privacy Policy, please contact us at <a href="mailto:privacy@carbsequence.com">privacy@carbsequence.com</a>.</p>
+
+    <a href="/" class="back-link">&larr; Back to Carbsequence</a>
+</div>
+
+</body>
+</html>
