@@ -949,54 +949,57 @@ document.querySelectorAll('.fade').forEach(el => obs.observe(el));
   let raf = null;
   let lastProgress = -1;
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window && window.innerWidth < 1024);
+
   function setLabel(index) {
     labels.forEach((l, i) => l.classList.toggle('active', i === index));
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
   }
 
-  function scrub() {
-    const rect = section.getBoundingClientRect();
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+  if (isMobile) {
+    // On mobile: autoplay the video, sync labels to scroll only
+    video.muted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.play().catch(() => {});
 
-    if (Math.abs(progress - lastProgress) < 0.001) return;
-    lastProgress = progress;
+    function scrubMobile() {
+      const rect = section.getBoundingClientRect();
+      const scrollable = section.offsetHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+      if (Math.abs(progress - lastProgress) < 0.005) return;
+      lastProgress = progress;
+      setLabel(Math.min(LABEL_COUNT - 1, Math.floor(progress * LABEL_COUNT)));
+    }
+    window.addEventListener('scroll', () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(scrubMobile);
+    }, { passive: true });
+    scrubMobile();
 
-    if (video.readyState >= 1) {
-      video.currentTime = progress * video.duration;
+  } else {
+    // Desktop: full scroll-driven scrubbing
+    function scrub() {
+      const rect = section.getBoundingClientRect();
+      const scrollable = section.offsetHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+      if (Math.abs(progress - lastProgress) < 0.001) return;
+      lastProgress = progress;
+      if (video.readyState >= 1) video.currentTime = progress * video.duration;
+      setLabel(Math.min(LABEL_COUNT - 1, Math.floor(progress * LABEL_COUNT)));
     }
 
-    const labelIndex = Math.min(LABEL_COUNT - 1, Math.floor(progress * LABEL_COUNT));
-    setLabel(labelIndex);
-  }
-
-  function onScroll() {
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(scrub);
-  }
-
-  // Preload all frames so scrubbing is smooth
-  video.addEventListener('loadedmetadata', () => {
-    video.currentTime = 0.001;
-    scrub();
-  });
-
-  // iOS requires a user gesture to load video — unlock on first touch/scroll
-  let unlocked = false;
-  function unlockVideo() {
-    if (unlocked) return;
-    unlocked = true;
-    video.play().then(() => {
-      video.pause();
+    video.addEventListener('loadedmetadata', () => {
       video.currentTime = 0.001;
       scrub();
-    }).catch(() => {});
-  }
-  document.addEventListener('touchstart', unlockVideo, { once: true, passive: true });
-  document.addEventListener('scroll', unlockVideo, { once: true, passive: true });
+    });
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  scrub();
+    window.addEventListener('scroll', () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(scrub);
+    }, { passive: true });
+    scrub();
+  }
 })();
 </script>
 
